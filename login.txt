@@ -1,0 +1,3 @@
+login menggunakan:
+email = user@user.com
+pass  = user
