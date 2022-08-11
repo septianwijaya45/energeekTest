@@ -7,6 +7,7 @@ use App\Models\Candidate;
 use App\Models\SkillSet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CandidateController extends Controller
@@ -49,15 +50,15 @@ class CandidateController extends Controller
             'year'      => 'required',
             'skill_set' => 'required'
         ], [
-            'job.required'      => 'Jabatan Harus Diisi!',
-            'name.required'     => 'Nama Harus Diisi!',
-            'phone.required'    => 'Telepon Harus Diisi!',
-            'phone.unique'      => 'Telepon Sudah Tersedia!',
-            'phone.numeric'      => 'Telepon Harus Berupa Angka!',
-            'email.required'    => 'Email Harus Diisi!',
-            'email.unique'      => 'Email Sudah Tersedia!',
-            'year.required'     => 'Tahun Lahir Harus Diisi!',
-            'skill_set'         => 'Skill Set Harus Diisi!'
+            'job.required'              => 'Jabatan Harus Diisi!',
+            'name.required'             => 'Nama Harus Diisi!',
+            'phone.required'            => 'Telepon Harus Diisi!',
+            'phone.unique'              => 'Telepon Sudah Tersedia!',
+            'phone.numeric'             => 'Telepon Harus Berupa Angka!',
+            'email.required'            => 'Email Harus Diisi!',
+            'email.unique'              => 'Email yang anda masukkan sudah pernah melamar dijabatan tersebut, silahkan memilih jabatan yang lain',
+            'year.required'             => 'Tahun Lahir Harus Diisi!',
+            'skill_set.required'        => 'Skill Set Harus Diisi!'
         ]);
 
         if($validator->fails()){
@@ -77,8 +78,8 @@ class CandidateController extends Controller
         $candidate->email     = $request->email;
         $candidate->phone     = $request->phone;
         $candidate->year      = $request->year;
-        $candidate->created_by      = 1;
-        $candidate->updated_by      = 1;
+        $candidate->created_by      = Auth::user()->id;
+        $candidate->updated_by      = Auth::user()->id;
         $candidate->created_at      = Carbon::now();
         $candidate->updated_at      = Carbon::now();
         $candidate->save();
